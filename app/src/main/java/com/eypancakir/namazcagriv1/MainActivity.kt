@@ -29,11 +29,13 @@ import androidx.core.content.ContextCompat
 import com.eypancakir.namazcagriv1.model.LocationDetails
 import com.eypancakir.namazcagriv1.ui.theme.NamazCagriV1Theme
 import com.eypancakir.namazcagriv1.viewmodel.ApplicationViewModel
+import com.eypancakir.namazcagriv1.viewmodel.NamazVaktiViewModel
 
 class MainActivity : ComponentActivity() {
 
     private val applicationViewModel: ApplicationViewModel by viewModels<ApplicationViewModel>()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -49,7 +51,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     /* Greeting("Android")*/
                     locations?.let { ShowLocation(it) }
-                    NamazVaktiScreen()
+                    locations?.let{NamazVaktiScreen(androidx.lifecycle.viewmodel.compose.viewModel(),it)}
 
                 }
             }

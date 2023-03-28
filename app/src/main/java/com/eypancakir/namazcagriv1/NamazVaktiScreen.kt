@@ -18,13 +18,14 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import com.eypancakir.namazcagriv1.model.LocationDetails
 import com.eypancakir.namazcagriv1.viewmodel.NamazVaktiViewModel
 import java.text.DateFormat
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NamazVaktiScreen(viewModel: NamazVaktiViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun NamazVaktiScreen(viewModel: NamazVaktiViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), location: LocationDetails) {
     val namazVakti by viewModel.namazVakti.observeAsState()
 
     Column(

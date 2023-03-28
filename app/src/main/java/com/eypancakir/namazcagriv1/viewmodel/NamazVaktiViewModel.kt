@@ -32,9 +32,11 @@ class NamazVaktiViewModel : ViewModel() {
     private val _namazVakti = MutableLiveData<NamazVaktiResponse>()
     val namazVakti: LiveData<NamazVaktiResponse> = _namazVakti
 
+
+
     init {
         val date = LocalDate.now().toString()
-        disposable.add(namazVaktiService.getNamazVakti(39.91987, 32.85427, date, 3, 180)
+        disposable.add(namazVaktiService.getNamazVakti(40.9757, 37.91, date, 30, 180)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ response ->
