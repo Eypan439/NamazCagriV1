@@ -28,6 +28,13 @@ import java.time.LocalDate
 fun NamazVaktiScreen(viewModel: NamazVaktiViewModel = androidx.lifecycle.viewmodel.compose.viewModel(), location: LocationDetails) {
     val namazVakti by viewModel.namazVakti.observeAsState()
 
+    viewModel.lat = location?.let { location.latitude.toDouble() }!!
+    viewModel.lng = location?.let { location.longitude.toDouble() }!!
+    viewModel.refreshData()
+
+    //lat = location?.let { location.latitude.toDouble() }!!
+    //lng = location?.let { location.longitude.toDouble() }!!
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -1,7 +1,11 @@
 package com.eypancakir.namazcagriv1.viewmodel
 
+import android.Manifest
+import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,9 +18,12 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
+import kotlin.coroutines.coroutineContext
+import kotlin.properties.Delegates
 
 @RequiresApi(Build.VERSION_CODES.O)
-class NamazVaktiViewModel : ViewModel() {
+class NamazVaktiViewModel(var lat: Double = 41.1, var lng: Double = 37.2) : ViewModel() {
+
 
     private val namazVaktiService by lazy {
         Retrofit.Builder()
@@ -32,11 +39,24 @@ class NamazVaktiViewModel : ViewModel() {
     private val _namazVakti = MutableLiveData<NamazVaktiResponse>()
     val namazVakti: LiveData<NamazVaktiResponse> = _namazVakti
 
+    fun refreshData(){
 
+        val date = LocalDate.now().toString()
+        disposable.add(namazVaktiService.getNamazVakti(lat = lat, lng = lng, date, 30, 180)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({ response ->
+                _namazVakti.postValue(response)
+            }, { throwable ->
+                // handle error
+            })
+        )
+
+    }
 
     init {
         val date = LocalDate.now().toString()
-        disposable.add(namazVaktiService.getNamazVakti(40.9757, 37.91, date, 30, 180)
+        disposable.add(namazVaktiService.getNamazVakti(lat = lat, lng = lng, date, 30, 180)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({ response ->
